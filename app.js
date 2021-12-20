@@ -12,7 +12,7 @@ app.use(express.urlencoded({extended: false}))
 app.use('/img', express.static('storage'))
 
 app.get('/', (req,res)=>{
-    res.send('<h1>Node.js OCR</h1>')
+    res.send('<h1>Node.js OCR - Tysseract</h1>')
 })
 
 const capturedImage = async (req, res, next) => {
@@ -24,7 +24,7 @@ const capturedImage = async (req, res, next) => {
 
         Tesseract.recognize(
             'http://localhost:5000/img/ocr_image.jpeg',
-            'por',
+            'eng',
             { logger: m => console.log(m) }
         )
         .then(({ data: { text } }) => {
@@ -52,12 +52,11 @@ app.post('/upload', (req, res)=>{
                 console.log(err)
                 res.send(err)
             } else {
-                 //console.log(namaFile)
-                 //res.send(namaFile)
-                 console.log("passei por aqui")
+                // console.log(namaFile)
+                // res.send(namaFile)
                 Tesseract.recognize(
                     `./storage/${namaFile}`,
-                    'por',
+                    'eng',
                     { logger: m => console.log(m) }
                 )
                 .then(({ data: { text } }) => {
