@@ -24,7 +24,7 @@ app.set("port", port);
 const server = http.createServer(app);
 server.listen(port);
 
-app.get('/', (req,res)=>{
+app.get('/', (req,res)=>{st
   res.send('<h1>Node.js OCR - Azure Form Recognizer Receipt</h1>')
 })
 
