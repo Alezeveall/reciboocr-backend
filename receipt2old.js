@@ -18,16 +18,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const hostname = "http://localhost";
 
-const port = process.env.PORT || "3005";
+const port = process.env.PORT || "3002";
 app.set("port", port);
 
 const server = http.createServer(app);
 server.listen(port);
 
 app.get('/', (req,res)=>{
-  res.send('<h1>Node.js OCR - Azure Form Recognizer Receipt</h1>')
+    res.send('<h1>Node.js OCR - Azure Form Recognizer</h1>')
 })
-
 
 // enable files upload
 app.use(
@@ -69,7 +68,8 @@ app.use("/api/analyze", (req, res, next) => {
 
 async function recognizeForm(file) {
   const endpoint = "https://handson-mba-fiap-form-ale.cognitiveservices.azure.com/";
-  const apiKey = "827bff0b7e224350a86ce0d5588b9355";
+  const apiKey = "827bff0b7e224350a86ce0d5588b9355" 
+  const modelId = "efce7c34-a84b-485b-a871-c5ae3fce23dc";
   console.log("Entering Forms Recognizer");
 
   let fileStream = fs.createReadStream(file);
@@ -78,21 +78,13 @@ async function recognizeForm(file) {
     endpoint,
     new AzureKeyCredential(apiKey)
   );
-
-  const poller = await client.beginRecognizeReceipts(fileStream, {
+  const poller = await client.beginRecognizeCustomForms(modelId, fileStream, {
     contentType: "image/jpeg",
-    onProgress: (state) => { console.log(`status: ${state.status}`); }
+    onProgress: (state) => {
+      console.log(`status: ${state.status}`);
+    },
   });
-  
-  const [receipt] = await poller.pollUntilDone();
-
-  console.log("Reconheci recibo:");
-
-  console.log(receipt);
-
   const forms = await poller.pollUntilDone();
- 
-  console.log(forms)
 
   console.log("Forms:");
   for (const form of forms || []) {
@@ -122,4 +114,3 @@ async function recognizeForm(file) {
   fs.unlinkSync(uploadPath);
   return forms;
 }
-
