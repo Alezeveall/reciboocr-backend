@@ -21,6 +21,7 @@
     "express-fileupload": "^1.2.1",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
-    "tesseract.js": "^2.1.5"
+    "node-tesseract-ocr": "^2.2.1"
+
   }
 }
