@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/img', express.static('storage'));
 
 app.get('/', (req, res) => {
-  res.send('<h1>Node.js OCR - Tysseract</h1>');
+  res.send('<h1>Node.js - Pré-processamento OCR Tysseract</h1>');
 });
 
 // const capturedImage = async (req, res, next) => {
